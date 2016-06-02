@@ -1,6 +1,8 @@
 package com.github.geoand.jkong
 
 import com.github.geoand.jkong.dsl.serverOf
+import com.github.geoand.jkong.guice.ProxyModule
+import com.github.geoand.jkong.proxy.registry.ProxyEntryRegistryHandler
 import org.slf4j.LoggerFactory.getLogger
 import ratpack.handling.Context
 
@@ -18,10 +20,17 @@ object Main {
     }
 
     fun createServer() = serverOf {
+        guiceRegistry {
+            module(ProxyModule())
+        }
+
         handlers {
             path("yo") { render("from the yo handler") }
 
             path("method", ::methodHandler)
+
+
+            path("entry", ProxyEntryRegistryHandler::class.java)
 
             all { render("root handler!") }
         }

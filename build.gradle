@@ -44,4 +44,5 @@ dependencies {
 
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     testCompile 'com.github.tomakehurst:wiremock:2.0.10-beta'
+    testCompile 'org.assertj:assertj-core:3.4.1'
 }
