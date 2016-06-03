@@ -6,8 +6,8 @@ import org.jetbrains.spek.api.Spek
 /**
  * Created by gandrianakis on 3/6/2016.
  */
-class ListCombineSpec : Spek({
-    describe("list.combine") {
+class CollectionCombineSpec : Spek({
+    describe("collection.combine") {
 
         val first = listOf("Kotlin", "Groovy")
         val second = setOf("rocks", "kicks-ass", "is awesome")

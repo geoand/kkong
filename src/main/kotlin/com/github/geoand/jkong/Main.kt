@@ -31,7 +31,11 @@ object Main {
         }
 
         handlers {
-            path("yo") { render("from the yo handler") }
+            path("yo") {
+                println(this.request.headers.get("Host"))
+                println(this.request.path)
+                render("from the yo handler")
+            }
 
             path("method", ::methodHandler)
 

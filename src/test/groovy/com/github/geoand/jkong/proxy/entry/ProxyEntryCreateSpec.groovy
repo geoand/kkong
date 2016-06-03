@@ -1,13 +1,11 @@
-package com.github.geoand.jkong.proxy
+package com.github.geoand.jkong.proxy.entry
 
-import com.github.geoand.jkong.proxy.entry.ProxyEntry
-import com.github.geoand.jkong.proxy.entry.ProxyTargetType
 import spock.lang.Specification
 
 /**
  * Created by gandrianakis on 2/6/2016.
  */
-class ProxyEntrySpec extends Specification {
+class ProxyEntryCreateSpec extends Specification {
 
     def "missing both requestHost and requestPath"() {
         when:
