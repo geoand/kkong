@@ -7,6 +7,8 @@ import com.google.common.base.Strings
 
 /**
  * Created by gandrianakis on 2/6/2016.
+ *
+ * TODO This needs to be revisited so support various global and type specific options
  */
 data class ProxyEntry(val requestHost: String? = null, val requestPath: String? = null,
                       val type: ProxyTargetType = ProxyTargetType.UPSTREAM_URL,
