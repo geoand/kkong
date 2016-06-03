@@ -1,5 +1,6 @@
 package com.github.geoand.jkong
 
+import com.github.geoand.jkong.config.AllConfigLoader
 import com.github.geoand.jkong.dsl.serverOf
 import com.github.geoand.jkong.guice.ProxyModule
 import com.github.geoand.jkong.proxy.registry.ProxyEntryRegistryHandler
@@ -20,6 +21,11 @@ object Main {
     }
 
     fun createServer() = serverOf {
+        serverConfig {
+            AllConfigLoader.load(this).build()
+        }
+
+
         guiceRegistry {
             module(ProxyModule())
         }

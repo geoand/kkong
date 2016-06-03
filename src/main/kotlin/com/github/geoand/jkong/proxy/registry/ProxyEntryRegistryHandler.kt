@@ -2,7 +2,7 @@ package com.github.geoand.jkong.proxy.registry
 
 import ratpack.handling.Context
 import ratpack.handling.Handler
-import ratpack.jackson.Jackson
+import ratpack.jackson.Jackson.json
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,6 +13,6 @@ import javax.inject.Singleton
 class ProxyEntryRegistryHandler @Inject constructor(val proxyEntryRegistry: ProxyEntryRegistry) : Handler {
 
     override fun handle(ctx: Context?) {
-        ctx?.render(Jackson.json(proxyEntryRegistry.all()))
+        ctx?.render(json(proxyEntryRegistry.all()))
     }
 }
