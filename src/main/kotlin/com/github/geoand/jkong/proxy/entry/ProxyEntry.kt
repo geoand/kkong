@@ -12,6 +12,7 @@ import com.google.common.base.Strings
  */
 data class ProxyEntry(val requestHost: String? = null, val requestPath: String? = null,
                       val type: ProxyTargetType = ProxyTargetType.UPSTREAM_URL,
+                      val stripPath: Boolean = true,
                       val targetValue: String) {
 
     private val SLASH = "/"
@@ -25,10 +26,10 @@ data class ProxyEntry(val requestHost: String? = null, val requestPath: String? 
 
     fun match(request: RequestHostAndPath): Boolean {
         if(null == requestHost) {
-            return requestPath?.withBothIfMissing(SLASH) == request.path.withBothIfMissing(SLASH)
+            return  request.path.withBothIfMissing(SLASH).startsWith(requestPath?.withBothIfMissing(SLASH) ?: "", true)
         }
         else {
-            return requestHost.withLeadingIfMissing(HTTP_SCHEME) == request.host.withLeadingIfMissing(HTTP_SCHEME)
+            return requestHost.withLeadingIfMissing(HTTP_SCHEME).equals(request.host.withLeadingIfMissing(HTTP_SCHEME), true)
         }
     }
 

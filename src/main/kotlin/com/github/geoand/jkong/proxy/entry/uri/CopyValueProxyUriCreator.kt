@@ -22,7 +22,7 @@ class CopyValueProxyUriCreator : ProxyUriCreator {
                 targetValueUri.userInfo,
                 targetValueUri.host,
                 targetValueUri.port,
-                requestUri.path,
+                if(proxyEntry.stripPath && (null != proxyEntry.requestPath)) requestUri.path.replace(proxyEntry.requestPath, "") else requestUri.path,
                 requestUri.query,
                 requestUri.fragment
         )

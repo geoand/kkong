@@ -23,7 +23,6 @@ object Main {
             AllConfigLoader.load(this).build()
         }
 
-
         guiceRegistry {
             module(BaseProxyModule())
         }

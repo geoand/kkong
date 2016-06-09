@@ -12,7 +12,7 @@ class ProxyEntryMatchSpec extends Specification {
     @Unroll
     def "host is null, path matches irrelevant of the leading slash"(String entryPath, String requestPath) {
         given:
-            final entry = new ProxyEntry(null, entryPath, ProxyTargetType.UPSTREAM_URL, "")
+            final entry = new ProxyEntry(null, entryPath, ProxyTargetType.UPSTREAM_URL, true, "")
 
         expect:
             entry.match(new RequestHostAndPath('whatever', requestPath))
@@ -20,6 +20,8 @@ class ProxyEntryMatchSpec extends Specification {
         where:
             entryPath | requestPath
             "path" | "path"
+            "path" | "path/subpath"
+            "path" | "path/subpath?val=123"
             "path" | "/path"
             "path" | "path/"
             "path" | "/path/"
@@ -36,6 +38,7 @@ class ProxyEntryMatchSpec extends Specification {
             "/path/" | "/path"
             "/path/" | "path/"
             "/path/" | "/path/"
+            "/path/" | "/path/subpath?val=123"
             "path/path2" | "path/path2"
             "path/path2" | "/path/path2"
             "/path/path2" | "path/path2"
@@ -45,7 +48,7 @@ class ProxyEntryMatchSpec extends Specification {
     @Unroll
     def "host is null, path does not match"(String entryPath, String requestPath) {
         given:
-            final entry = new ProxyEntry(null, entryPath, ProxyTargetType.UPSTREAM_URL, "")
+            final entry = new ProxyEntry(null, entryPath, ProxyTargetType.UPSTREAM_URL, true, "")
 
         expect:
             !entry.match(new RequestHostAndPath('whatever', requestPath))
@@ -64,7 +67,7 @@ class ProxyEntryMatchSpec extends Specification {
     @Unroll
     def "host is set and matches"(String entryHost, String requestHost) {
         given:
-            final entry = new ProxyEntry(entryHost, null, ProxyTargetType.UPSTREAM_URL, "")
+            final entry = new ProxyEntry(entryHost, null, ProxyTargetType.UPSTREAM_URL, true, "")
 
         expect:
             entry.match(new RequestHostAndPath(requestHost, 'whatever'))
@@ -82,7 +85,7 @@ class ProxyEntryMatchSpec extends Specification {
     @Unroll
     def "host is set but does not match"(String entryHost, String requestHost) {
         given:
-            final entry = new ProxyEntry(entryHost, null, ProxyTargetType.UPSTREAM_URL, "")
+            final entry = new ProxyEntry(entryHost, null, ProxyTargetType.UPSTREAM_URL, true, "")
 
         expect:
             !entry.match(new RequestHostAndPath(requestHost, 'whatever'))
