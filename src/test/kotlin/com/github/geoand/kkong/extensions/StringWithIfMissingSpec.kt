@@ -1,8 +1,5 @@
-package com.github.geoand.jkong.extensions
+package com.github.geoand.kkong.extensions
 
-import com.github.geoand.kkong.extensions.withBothIfMissing
-import com.github.geoand.kkong.extensions.withLeadingIfMissing
-import com.github.geoand.kkong.extensions.withTrailingIfMissing
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 

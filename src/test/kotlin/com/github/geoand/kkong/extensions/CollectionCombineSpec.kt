@@ -1,6 +1,5 @@
-package com.github.geoand.jkong.extensions
+package com.github.geoand.kkong.extensions
 
-import com.github.geoand.kkong.extensions.combine
 import org.assertj.core.api.Assertions.assertThat
 import org.jetbrains.spek.api.Spek
 
