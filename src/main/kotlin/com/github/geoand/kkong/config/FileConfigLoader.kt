@@ -11,8 +11,9 @@ import java.nio.file.Paths
  */
 object FileConfigLoader {
 
-    @JvmStatic fun load(configDataBuilder: ConfigDataBuilder): ConfigDataBuilder {
-        val names = listOf("application.properties", "application.yml", "application.json")
+    @JvmStatic
+    fun load(configDataBuilder: ConfigDataBuilder, prefix: String = "", func: ConfigDataBuilder.() -> Unit = {}): ConfigDataBuilder {
+        val names = listOf("application.properties", "application.yml", "application.json").map { "$prefix$it" }
         val directories = listOf("", "config/")
 
         val possibleFileNames = directories.combine(names, {directory, name -> "$directory$name"})
@@ -24,6 +25,8 @@ object FileConfigLoader {
         possibleFileNames.forEach { //then read the file system resources and override properties using them
             loadFileSystemConfiguration(configDataBuilder, it)
         }
+
+        configDataBuilder.func()
 
         return configDataBuilder
     }

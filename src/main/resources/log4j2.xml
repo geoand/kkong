@@ -12,5 +12,8 @@
 
         <logger name="com.github.geoand.jkong" level="info">
         </logger>
+
+        <logger name="ratpack.server.RatpackServer" level="WARN">
+        </logger>
     </Loggers>
 </Configuration>

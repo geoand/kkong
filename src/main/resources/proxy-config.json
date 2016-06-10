@@ -3,12 +3,12 @@
     {
       "name": "metrics",
       "path": "/events/metrics",
-      "value": "http://grvd-akz-test-4:3337"
+      "value": "http://metrics-api:3337"
     },
     {
       "name": "payments",
       "path": "/events/payments",
-      "value": "http://grvd-akz-test-3:2337"
+      "value": "http://payments-api:2337"
     }
   ]
 }

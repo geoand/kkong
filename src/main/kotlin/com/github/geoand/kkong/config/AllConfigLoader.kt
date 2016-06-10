@@ -7,11 +7,18 @@ import ratpack.server.ServerConfigBuilder
  */
 object AllConfigLoader {
 
-    @JvmStatic fun load(configDataBuilder: ServerConfigBuilder): ServerConfigBuilder {
-        FileConfigLoader
-                .load(configDataBuilder)
-                .env()
-                .sysProps()
+    @JvmStatic fun load(configDataBuilder: ServerConfigBuilder, prefix: String = ""): ServerConfigBuilder {
+        FileConfigLoader.load(configDataBuilder, prefix) {
+            if(prefix.isEmpty()) {
+                env()
+                sysProps()
+            }
+            else {
+                env(prefix.toUpperCase())
+                sysProps(prefix)
+            }
+
+        }
 
         return configDataBuilder
     }

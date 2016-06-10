@@ -7,14 +7,14 @@ import spock.lang.Specification
 /**
  * Created by gandrianakis on 3/6/2016.
  */
-class ConfigIntegrationSpec extends Specification implements PropertiesResolverTrait {
+class ConfigInjectionIntegrationSpec extends Specification implements PropertiesResolverTrait {
 
     def "configuration should be loaded and injected correctly into handler"() {
 
         given:
             final app = GroovyEmbeddedApp.of {
                 serverConfig {
-                    AllConfigLoader.load(it).require('/app', AppData)
+                    AllConfigLoader.load(it, "").require('/app', AppData)
                 }
 
                 handlers {
