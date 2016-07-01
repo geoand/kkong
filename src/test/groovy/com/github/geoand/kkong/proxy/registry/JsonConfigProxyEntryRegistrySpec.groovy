@@ -17,7 +17,7 @@ class JsonConfigProxyEntryRegistrySpec extends Specification {
     @Unroll
     def "invalid configuration"() {
         given:
-            final sut = new JsonConfigProxyEntryRegistry(mapper, "{}")
+            final sut = new JsonConfigProxyActionsRegistry(mapper, "{}")
 
         expect:
             assertThat(sut.proxyEntries).isEmpty()
@@ -28,7 +28,7 @@ class JsonConfigProxyEntryRegistrySpec extends Specification {
 
     def "empty contents"() {
         given:
-            final sut = new JsonConfigProxyEntryRegistry(mapper, "{}")
+            final sut = new JsonConfigProxyActionsRegistry(mapper, "{}")
 
         expect:
             assertThat(sut.proxyEntries).isEmpty()
@@ -36,7 +36,7 @@ class JsonConfigProxyEntryRegistrySpec extends Specification {
 
     def "empty entries array"() {
         given:
-            final sut = new JsonConfigProxyEntryRegistry(mapper, "{\"entries\": []}")
+            final sut = new JsonConfigProxyActionsRegistry(mapper, "{\"entries\": []}")
 
         expect:
             assertThat(sut.proxyEntries).isEmpty()
@@ -50,36 +50,25 @@ class JsonConfigProxyEntryRegistrySpec extends Specification {
                 "key": "value",
                 "entries": [
                     {
+                        "name": "first",
                         "path": "/first",
                         "value": "http://first.api.example.com"
                     },
                     {
+                        "name": "second",
                         "path": "/second",
                         "value": "http://second.api.example.com"
-                    },
-                    {
-                        "host": "http://third.com",
-                        "value": "http://third.api.example.com"
                     }
                 ]
             }
             '''
         and:
-            final sut = new JsonConfigProxyEntryRegistry(mapper, jsonContent)
+            final sut = new JsonConfigProxyActionsRegistry(mapper, jsonContent)
 
         when:
             final entries = sut.proxyEntries
 
         then:
-            entries.size() == 3
-
-        and:
-            entries.first().requestPath == '/first'
-
-        and:
-            entries.last().requestHost == "http://third.com"
-
-        and:
-            assertThat(entries*.targetValue).containsOnly("http://first.api.example.com", "http://second.api.example.com", "http://third.api.example.com")
+            entries.size() == 2
     }
 }

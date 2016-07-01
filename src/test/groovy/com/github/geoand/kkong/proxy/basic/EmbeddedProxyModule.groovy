@@ -1,7 +1,7 @@
 package com.github.geoand.kkong.proxy.basic
 
 import com.github.geoand.kkong.modules.BaseProxyModule
-import com.github.geoand.kkong.proxy.registry.ProxyEntryRegistry
+import com.github.geoand.kkong.proxy.registry.ProxyActionsRegistry
 
 /**
  * Created by gandrianakis on 3/6/2016.
@@ -9,7 +9,7 @@ import com.github.geoand.kkong.proxy.registry.ProxyEntryRegistry
 class EmbeddedProxyModule extends BaseProxyModule {
 
     @Override
-    Class<ProxyEntryRegistry> entryRegistryClass() {
-        return EmbeddedProxyEntryRegistry
+    Class<ProxyActionsRegistry> entryRegistryClass() {
+        return EmbeddedProxyActionsRegistry
     }
 }

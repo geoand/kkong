@@ -2,12 +2,10 @@ package com.github.geoand.kkong.modules
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.geoand.kkong.proxy.ProxyHandler
-import com.github.geoand.kkong.proxy.entry.match.RequestToProxyEntryMatcher
-import com.github.geoand.kkong.proxy.entry.match.SimpleRequestToProxyEntryMatcher
 import com.github.geoand.kkong.proxy.entry.uri.CopyValueProxyUriCreator
 import com.github.geoand.kkong.proxy.entry.uri.ProxyUriCreator
-import com.github.geoand.kkong.proxy.registry.JsonConfigProxyEntryRegistry
-import com.github.geoand.kkong.proxy.registry.ProxyEntryRegistry
+import com.github.geoand.kkong.proxy.registry.JsonConfigProxyActionsRegistry
+import com.github.geoand.kkong.proxy.registry.ProxyActionsRegistry
 import com.google.common.io.Resources
 import com.google.inject.AbstractModule
 import com.google.inject.name.Names
@@ -18,8 +16,7 @@ import com.google.inject.name.Names
 open class BaseProxyModule : AbstractModule(){
 
     override fun configure() {
-        bind(ProxyEntryRegistry::class.java).to(entryRegistryClass())
-        bind(RequestToProxyEntryMatcher::class.java).to(SimpleRequestToProxyEntryMatcher::class.java)
+        bind(ProxyActionsRegistry::class.java).to(entryRegistryClass())
         bind(ProxyUriCreator::class.java).to(CopyValueProxyUriCreator::class.java)
 
         bind(ProxyHandler::class.java)
@@ -37,7 +34,7 @@ open class BaseProxyModule : AbstractModule(){
                 )
     }
 
-    open fun entryRegistryClass(): Class<out ProxyEntryRegistry> = JsonConfigProxyEntryRegistry::class.java
+    open fun entryRegistryClass(): Class<out ProxyActionsRegistry> = JsonConfigProxyActionsRegistry::class.java
 
     companion object {
         @JvmStatic fun proxyHandler() : ProxyHandler = ProxyHandler()

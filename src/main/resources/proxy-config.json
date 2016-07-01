@@ -1,11 +1,13 @@
 {
   "entries": [
     {
+      "type": "static",
       "name": "metrics",
       "path": "/events/metrics",
       "value": "http://metrics-api:3337"
     },
     {
+      "type": "static",
       "name": "payments",
       "path": "/events/payments",
       "value": "http://payments-api:2337"
