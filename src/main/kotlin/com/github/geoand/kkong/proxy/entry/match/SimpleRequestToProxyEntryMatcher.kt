@@ -22,7 +22,7 @@ class SimpleRequestToProxyEntryMatcher @Inject constructor(val proxyEntryRegistr
             log.debug("No matching proxy entry found for request: $request")
         }
         else {
-            log.debug("Request: $request matches proxy entry $matchingEntry")
+            log.debug("Request: $request check proxy entry $matchingEntry")
         }
 
         return matchingEntry

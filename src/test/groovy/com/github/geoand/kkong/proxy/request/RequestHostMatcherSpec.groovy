@@ -1,5 +1,6 @@
 package com.github.geoand.kkong.proxy.request
 
+import com.github.geoand.kkong.proxy.Options
 import com.github.geoand.kkong.proxy.RequestHostAndPath
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -15,7 +16,7 @@ class RequestHostMatcherSpec extends Specification {
             final entry = new RequestHostMatcher(entryHost)
 
         expect:
-            entry.matches(new RequestHostAndPath(requestHost, 'whatever'))
+            entry.check(new RequestHostAndPath(requestHost, 'whatever'), new Options(false, false)).matches
 
         where:
             entryHost | requestHost
@@ -33,7 +34,7 @@ class RequestHostMatcherSpec extends Specification {
             final entry = new RequestHostMatcher(entryHost)
 
         expect:
-            !entry.matches(new RequestHostAndPath(requestHost, 'whatever'))
+            !(entry.check(new RequestHostAndPath(requestHost, 'whatever'), new Options(false, false)).matches)
 
         where:
             entryHost | requestHost

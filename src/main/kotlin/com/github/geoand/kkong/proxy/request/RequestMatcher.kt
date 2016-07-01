@@ -1,5 +1,6 @@
 package com.github.geoand.kkong.proxy.request
 
+import com.github.geoand.kkong.proxy.Options
 import com.github.geoand.kkong.proxy.RequestHostAndPath
 
 /**
@@ -7,5 +8,5 @@ import com.github.geoand.kkong.proxy.RequestHostAndPath
  */
 interface RequestMatcher {
 
-    fun matches(request: RequestHostAndPath): Boolean
+    fun check(request: RequestHostAndPath, options: Options): RequestMatcherResult
 }
