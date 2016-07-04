@@ -26,9 +26,5 @@ abstract class AbstractDelegatingProxyAPIActions(private val name: String,
     }
 
     abstract fun doConvert(request: Request, matchesResult: RequestMatcherResult): Observable<URI>
-
-    fun Request.toRequestHostAndPath() = RequestHostAndPath(this.headers.get("Host"), this.path)
-
-
 }
 

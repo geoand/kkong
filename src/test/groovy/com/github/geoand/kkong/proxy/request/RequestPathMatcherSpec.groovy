@@ -65,4 +65,30 @@ class RequestPathMatcherSpec extends Specification {
             "/path/path2" | "path/path3"
             "path/path2" | "/path/path3"
     }
+
+    @Unroll
+    def "effective path is correctly created when the path request path is stripped"(String requestPathAfterEntryPath, String expectedEffectivePath) {
+        given:
+            final entryPath = "path"
+
+        and:
+            final entry = new RequestPathMatcher(entryPath)
+
+        when:
+            final result = entry.check(new RequestHostAndPath('whatever', "$entryPath$requestPathAfterEntryPath"), new Options(true, false))
+
+        then:
+            result.effectivePath == expectedEffectivePath
+
+        where:
+            requestPathAfterEntryPath | expectedEffectivePath
+            "" | ""
+            "/" | ""
+            "/path2" | "/path2"
+            "/path2/" | "/path2"
+            "/path2/path3" | "/path2/path3"
+            "/path2/path3/" | "/path2/path3"
+
+
+    }
 }

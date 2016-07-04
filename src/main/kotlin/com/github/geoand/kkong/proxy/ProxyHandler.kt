@@ -17,37 +17,31 @@ class ProxyHandler : InjectionHandler() {
 
     fun handle(context: Context?, proxyActionsRegistry: ProxyActionsRegistry) {
         if(null == context) {
-            return //this never happens. it's only there to satisfy Kotlin's compiler so that we can use ctx as Context instead of Context?
+            return //this never happens. It's only there to satisfy Kotlin's compiler so that we can use ctx as Context instead of Context?
         }
 
         val request = context.request
 
         val allActions = proxyActionsRegistry.all()
 
-        /**
-         * TODO
-         *
-         * 1. Find first observable that is not empty
-         * 2. Subscribe to it
-         * 3. Call the proxy code inside the subscriber
-         */
+        val matching = allActions.firstOrNull() {it.supports(context.request)}
 
-        context.next()
-//
-//
-//        if(null == matchingProxyEntry) {
-//            log.info("Request $hostAndPath does match any proxy entry")
-//            context.next()
-//            return
-//        }
-//
-//        val httpClient = context.get(HttpClient::class.java)
-//
-//        httpClient.requestStream(proxyUri) { spec: RequestSpec ->
-//            spec.headers.copy(request.headers)
-//        }.then { responseStream: StreamedResponse ->
-//            responseStream.forwardTo(context.response)
-//        }
+        if(null == matching) {
+            log.info("Request $request does match any proxy entry")
+            context.next()
+        }
+        else {
+            //for now the simplest thing to do is just use the first result
+            matching.convert(request).first().subscribe({ proxyUri ->
+                val httpClient = context.get(HttpClient::class.java)
+
+                httpClient.requestStream(proxyUri) { spec: RequestSpec ->
+                    spec.headers.copy(request.headers)
+                }.then { responseStream: StreamedResponse ->
+                    responseStream.forwardTo(context.response)
+                }
+            })
+        }
 
     }
 }

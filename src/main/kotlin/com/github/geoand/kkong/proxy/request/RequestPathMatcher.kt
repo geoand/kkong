@@ -7,13 +7,23 @@ import com.github.geoand.kkong.proxy.RequestHostAndPath
 
 class RequestPathMatcher(private val matchPath: String): RequestMatcher {
 
-    private val SLASH = "/"
-
     override fun check(request: RequestHostAndPath, options: Options): RequestMatcherResult {
-        val matches = request.path.addSlashes().startsWith(matchPath.withBothIfMissing(SLASH), true)
+        val requestPathWithSlashes = request.path.addSlashes()
+        val matches = requestPathWithSlashes.startsWith(matchPath.withBothIfMissing("/"), true)
 
-        return RequestMatcherResult(matches, if(options.stripPath) request.path.replace(matchPath, "") else request.path )
+        return RequestMatcherResult(matches, createEffectivePath(options, request, requestPathWithSlashes))
     }
 
-    private fun String.addSlashes() = if(this.contains('?')) this.withLeadingIfMissing(SLASH).replace("?", "/?") else this.withBothIfMissing(SLASH)
+    private fun createEffectivePath(options: Options, request: RequestHostAndPath, requestPathWithSlashes: String): String {
+        val pathNoSlashes =
+                (if (options.stripPath)
+                    "${requestPathWithSlashes.replaceFirst(matchPath, "")}"
+                 else
+                    request.path
+                ).trim('/')
+
+        return if(pathNoSlashes.isEmpty()) "" else "/$pathNoSlashes"
+    }
+
+    private fun String.addSlashes() = if(this.contains('?')) this.withLeadingIfMissing("/").replace("?", "/?") else this.withBothIfMissing("/")
 }

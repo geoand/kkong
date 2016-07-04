@@ -17,4 +17,8 @@ interface ProxyAPIActions {
     fun options(): Options
 
     fun convert(request: Request) : Observable<URI>
+
+    fun supports(request: Request) = requestMatcher().check(request.toRequestHostAndPath(), options()).matches
 }
+
+fun Request.toRequestHostAndPath() = RequestHostAndPath(this.headers.get("Host"), this.path)

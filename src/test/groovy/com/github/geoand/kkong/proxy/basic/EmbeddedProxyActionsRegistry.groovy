@@ -1,11 +1,12 @@
 package com.github.geoand.kkong.proxy.basic
 
-import com.github.geoand.kkong.proxy.entry.ProxyEntry
-import com.github.geoand.kkong.proxy.entry.ProxyTargetType
+import com.github.geoand.kkong.proxy.Options
+import com.github.geoand.kkong.proxy.ProxyAPIActions
+import com.github.geoand.kkong.proxy.StaticTargetDelegatingProxyAPIActions
 import com.github.geoand.kkong.proxy.registry.ProxyActionsRegistry
+import com.github.geoand.kkong.proxy.request.RequestPathMatcher
 
-import static com.github.geoand.kkong.proxy.basic.EmbeddedProxyConsts.EMBEDDED_APP_PORT
-import static com.github.geoand.kkong.proxy.basic.EmbeddedProxyConsts.PROXY_PATH
+import static com.github.geoand.kkong.proxy.basic.EmbeddedProxyConsts.*
 
 /**
  * Created by gandrianakis on 3/6/2016.
@@ -13,7 +14,21 @@ import static com.github.geoand.kkong.proxy.basic.EmbeddedProxyConsts.PROXY_PATH
 class EmbeddedProxyActionsRegistry implements ProxyActionsRegistry {
 
     @Override
-    List<ProxyEntry> all() {
-        return [new ProxyEntry(null, PROXY_PATH, ProxyTargetType.UPSTREAM_URL, false,  "http://localhost:${EMBEDDED_APP_PORT}")]
+    List<ProxyAPIActions> all() {
+        return [
+                new StaticTargetDelegatingProxyAPIActions(
+                    "name",
+                    new Options(false, false),
+                    new RequestPathMatcher(NON_STRIPPED_PROXY_PATH),
+                    new URI("http://localhost:${EMBEDDED_APP_PORT}")
+                ),
+
+                new StaticTargetDelegatingProxyAPIActions(
+                        "name",
+                        new Options(true, false),
+                        new RequestPathMatcher(STRIPPED_PROXY_PATH),
+                        new URI("http://localhost:${EMBEDDED_APP_PORT}")
+                )
+        ]
     }
 }

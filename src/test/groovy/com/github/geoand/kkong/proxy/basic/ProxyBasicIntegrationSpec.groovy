@@ -8,8 +8,7 @@ import ratpack.test.http.TestHttpClient
 import spock.lang.Shared
 import spock.lang.Specification
 
-import static com.github.geoand.kkong.proxy.basic.EmbeddedProxyConsts.EMBEDDED_APP_PORT
-import static com.github.geoand.kkong.proxy.basic.EmbeddedProxyConsts.PROXY_PATH
+import static com.github.geoand.kkong.proxy.basic.EmbeddedProxyConsts.*
 
 class ProxyBasicIntegrationSpec extends Specification {
 
@@ -44,11 +43,13 @@ class ProxyBasicIntegrationSpec extends Specification {
         final proxiedUri = proxiedHost.address //without referencing the proxiedHost, the embedded app seems to not be started at all
     }
 
-    def "get request to ratpack is proxied to the embedded app"(String extraPath) {
+    def "GET request to non-stripped path is correctly proxied"() {
 		expect:
-		    getText("$PROXY_PATH/$extraPath") == "rendered $PROXY_PATH/${extraPath}".toString()
-
-		where:
-		    extraPath << [""]
+		    getText("$NON_STRIPPED_PROXY_PATH") == "rendered $NON_STRIPPED_PROXY_PATH".toString()
 	}
+
+    def "GET request to stripped path is correctly proxied"() {
+        expect:
+            getText("$STRIPPED_PROXY_PATH/p2") == "rendered /p2".toString()
+    }
 }
