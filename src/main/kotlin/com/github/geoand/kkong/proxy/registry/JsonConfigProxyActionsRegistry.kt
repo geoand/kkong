@@ -20,6 +20,7 @@ class JsonConfigProxyActionsRegistry @Inject constructor(private val mapper: Obj
 
         val configMap = getContents()
 
+        @Suppress("UNCHECKED_CAST")
         val configMapEntries = (configMap["entries"] ?: listOf<Map<String, String>>()) as List<Map<String, String>>
 
         //for the time being we have one type -> static
