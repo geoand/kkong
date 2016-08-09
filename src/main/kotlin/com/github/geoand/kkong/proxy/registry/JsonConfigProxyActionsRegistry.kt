@@ -24,16 +24,17 @@ class JsonConfigProxyActionsRegistry @Inject constructor(private val mapper: Obj
         val configMapEntries = (configMap["entries"] ?: listOf<Map<String, String>>()) as List<Map<String, String>>
 
         //for the time being we have one type -> static
-        val staticEntries = configMapEntries.filter {
-            it.getOrElse("type", {"static"}) == "static"
-        }.map { entry ->
-            StaticTargetDelegatingProxyAPIActions(
-                    entry["name"] ?: throw IllegalArgumentException("Each proxy entry must provide a name"),
-                    Options(true, false), //hard-coded for now
-                    RequestPathMatcher(entry["path"] ?: throw IllegalArgumentException("All path matching entries must provide a valid path")),
-                    URI(entry["value"] ?: throw IllegalArgumentException("All static proxy entries must supply a value"))
-            )
-        }
+        val staticEntries =
+                configMapEntries.filter {
+                    it.getOrElse("type", {"static"}) == "static"
+                }.map { entry ->
+                    StaticTargetDelegatingProxyAPIActions(
+                        entry["name"] ?: throw IllegalArgumentException("Each proxy entry must provide a name"),
+                        Options(true, false), //hard-coded for now
+                        RequestPathMatcher(entry["path"] ?: throw IllegalArgumentException("All path matching entries must provide a valid path")),
+                        URI(entry["value"] ?: throw IllegalArgumentException("All static proxy entries must supply a value"))
+                    )
+                }
 
         staticEntries
     }
